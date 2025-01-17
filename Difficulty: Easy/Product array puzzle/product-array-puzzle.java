@@ -6,22 +6,24 @@ import java.util.*;
 
 class GFG {
     public static void main(String args[]) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
         while (t > 0) {
-            int n = sc.nextInt();
-            int[] array = new int[n];
+            String inputLine[] = br.readLine().trim().split(" ");
+            int n = inputLine.length;
+            int arr[] = new int[n];
             for (int i = 0; i < n; i++) {
-                array[i] = sc.nextInt();
+                arr[i] = Integer.parseInt(inputLine[i]);
             }
             Solution ob = new Solution();
-            long[] ans = new long[n];
-            ans = ob.productExceptSelf(array);
+            int[] ans = new int[n];
+            ans = ob.productExceptSelf(arr);
 
             for (int i = 0; i < n; i++) {
                 System.out.print(ans[i] + " ");
             }
             System.out.println();
+            System.out.println("~");
             t--;
         }
     }
@@ -31,24 +33,13 @@ class GFG {
 
 
 // User function Template for Java
-
 class Solution {
-    public long[] productExceptSelf(int[] nums) {
-        int n = nums.length;
-        long[] leftProduct = new long[n];
-        long[] result = new long[n];
-        
-        leftProduct[0] = 1;
-        for (int i = 1; i < n; i++) {
-            leftProduct[i] = leftProduct[i - 1] * nums[i - 1];
-        }
-
-        long rightProductAcc = 1;
-        for (int i = n - 1; i >= 0; i--) {
-            result[i] = leftProduct[i] * rightProductAcc;
-            rightProductAcc *= nums[i];
-        }
-
-        return result;
+    public static int[] productExceptSelf(int[] arr) {
+        int n = arr.length, product = 1, zeroCount = 0;
+        for (int x : arr) if (x == 0) zeroCount++; else product *= x;
+        if (zeroCount > 1) return new int[n];
+        for (int i = 0; i < n; i++) 
+            arr[i] = zeroCount > 0 ? (arr[i] == 0 ? product : 0) : product / arr[i];
+        return arr;
     }
 }
