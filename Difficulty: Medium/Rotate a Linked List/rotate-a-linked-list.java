@@ -29,41 +29,27 @@ class Node{
 
 */
 
-
-
 class Solution {
-    public Node rotate(Node head, int k) {
-        if (head == null || head.next == null || k == 0) return head;
-
-        Node temp = head;
-        int n = 1;
-        while (temp.next != null) {
-            temp = temp.next;
-            n++;
-        }
-
-        k = k % n;
-        if (k == 0) return head;
-
-        temp.next = head;
-        Node t = head;
-        while (k > 1) {
-            t = t.next;
-            k--;
-        }
-
-        head = t.next;
-        t.next = null;
-
-        return head;
+  public Node rotate(Node head, int k) {
+    if (head == null || head.next == null || k == 0) return head;
+    int len = 1;
+    Node tail = head;
+    while (tail.next != null) {
+      tail = tail.next;
+      len++;
     }
+    k %= len;
+    if (k == 0) return head;
+    Node newTail = head;
+    for (int i = 1; i < k; i++) {
+      newTail = newTail.next;
+    }
+    Node newHead = newTail.next;
+    newTail.next = null;
+    tail.next = head;
+    return newHead;
+  }
 }
-
-
-
-    
-
-
 
 
 //{ Driver Code Starts.
@@ -106,6 +92,8 @@ public class GFG {
             Solution ob = new Solution();
             head = ob.rotate(head, k);
             printList(head);
+
+            System.out.println("~");
         }
     }
 }
