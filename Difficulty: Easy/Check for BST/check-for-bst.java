@@ -98,7 +98,9 @@ class GfG {
             else
                 System.out.println("false");
             t--;
-        }
+        
+System.out.println("~");
+}
     }
 }
 
@@ -108,19 +110,13 @@ class GfG {
 // User function Template for Java
 
 class Solution {
-    public boolean isBST(Node node) {
-        return isBSTUtil(node, null, null);
+    boolean isBST(Node root) {
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    private boolean isBSTUtil(Node node, Node minNode, Node maxNode) {
-        if (node == null) {
-            return true;
-        }
-
-        if ((minNode != null && node.data <= minNode.data) || (maxNode != null && node.data >= maxNode.data)) {
-            return false;
-        }
-
-        return isBSTUtil(node.left, minNode, node) && isBSTUtil(node.right, node, maxNode);
+    boolean isBST(Node node, int min, int max) {
+        return node == null || (node.data > min && node.data < max &&
+                isBST(node.left, min, node.data) &&
+                isBST(node.right, node.data, max));
     }
 }
