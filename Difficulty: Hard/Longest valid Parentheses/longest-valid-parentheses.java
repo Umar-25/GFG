@@ -1,54 +1,39 @@
 //{ Driver Code Starts
-//Initial Template for Java
+// Initial Template for Java
 
 import java.io.*;
 import java.util.*;
 
-class GFG{
-    public static void main(String args[])throws IOException
-    {
+class GFG {
+    public static void main(String args[]) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(in.readLine());
-        while(t-- > 0){
+        while (t-- > 0) {
             String S = in.readLine();
-            
+
             Solution ob = new Solution();
             System.out.println(ob.maxLength(S));
+
+            System.out.println("~");
         }
     }
 }
 // } Driver Code Ends
 
 
-//User function Template for Java
-
-class Solution{
-    static int maxLength(String S){
-        int left = 0, right = 0, maxi = 0;
-        for (int i = 0; i < S.length(); i++) {
-            if (S.charAt(i) == '(')
-                left++;
-            else
-                right++;
-
-            if (left == right)
-                maxi = Math.max(maxi, 2 * right);
-            else if (right > left)
-                left = right = 0;
+class Solution {
+    static int maxLength(String s) {
+        java.util.Stack<Integer> st = new java.util.Stack<>();
+        st.push(-1);
+        int m = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') st.push(i);
+            else {
+                st.pop();
+                if (st.empty()) st.push(i);
+                else m = Math.max(m, i - st.peek());
+            }
         }
-        left = right = 0; 
-        for (int i = S.length() - 1; i >= 0; i--) {
-            if (S.charAt(i) == '(')
-                left++;
-            else
-                right++;
-
-            if (left == right)
-                maxi = Math.max(maxi, 2 * left);
-            else if (left > right)
-                left = right = 0;
-        }
-
-        return maxi;
+        return m;
     }
 }
